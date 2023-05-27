@@ -13,8 +13,8 @@ import os
 def library_import():
     filetypes = ('Epub', '*.epub'),('PDF', '*.pdf'),('Text Files', '*.txt'),('All Files', '*.*')
     filename = fd.askopenfilename(title = 'Import', initialdir='/', filetypes=filetypes)
-    file_name = re.search(r"/([a-zA-Z0-9-_# \(\),]*)\.([\w]*)", filename).group(1)  #There are easier ways, but I want to use regex :3
-    file_extension = re.search(r"/([a-zA-Z0-9-_# \(\),]*)\.([\w]*)", filename).group(2)
+    file_name = re.search(r"/([a-zA-Z0-9-_#+ \(\),\"]*)\.([\w]*)", filename).group(1)  #There are easier ways, but I want to use regex :3
+    file_extension = re.search(r"/([a-zA-Z0-9-_#+ \(\),]*)\.([\w]*)", filename).group(2)
     library = 'C:/Bookie/Library/'
     shutil.move(filename, library)
     library_data = [file_name, library+file_name+"."+file_extension]
@@ -62,15 +62,15 @@ about.add_command(label ='About', command = None)
 about.add_command(label ='Help', command = None)
 
 #Display Library Files
-with open("C:/Bookie/library.csv") as file:
-    read = csv.reader(file, delimiter = ',')
+with open("C:/Bookie/library.csv", 'r', newline='') as file:
+    read = csv.reader(file)
     lib_dict = {}
-    for row in read:
-        lib_dict.append()
+    lib_dict = dict(read)
+    print(lib_dict)
     buttons = lib_dict.keys()
     for btn in buttons:
-        new_btn = Button(m, txt=btn, command=btn_click)
-        new_btn.pack()
+        new_btn = Button(m, text=btn, command=btn_click)
+        new_btn.pack(anchor=tkinter.W)
 m.config(menu = menubar)
 m.mainloop()
 
